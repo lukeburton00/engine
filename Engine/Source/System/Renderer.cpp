@@ -1,10 +1,3 @@
-//
-//  Renderer.cpp
-//  Engine
-//
-//  Created by Luke Burton on 12/4/22.
-//
-
 #include "Renderer.hpp"
 
 bool Renderer::Initialize(const int& SCREEN_WIDTH, const int& SCREEN_HEIGHT, const Uint32& flags)
@@ -24,7 +17,7 @@ bool Renderer::Initialize(const int& SCREEN_WIDTH, const int& SCREEN_HEIGHT, con
     {
         //Set OpenGL attributes for perfomance and compatibility
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
         SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
@@ -84,16 +77,16 @@ void Renderer::LoadTriangle()
 
     GLfloat vertices[] =
     {
-        0.0f, 0.5f, // vertex 1
-        0.5f, -0.5f, // vertex 2
-        -0.5f, -0.5f, // vertex 3
+        0.0f, 0.5f, 0.0f, // vertex 1
+        0.5f, -0.5f, 0.0f, // vertex 2
+        -0.5f, -0.5f, 0.0f// vertex 3
     };
 
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
     const GLchar * vertexSource = R"glsl(
-    #version 150 core
+    #version 330 core
     in vec2 position;
     void main()
     {
@@ -101,7 +94,7 @@ void Renderer::LoadTriangle()
     })glsl";
 
     const GLchar * fragmentSource = R"glsl(
-    #version 150 core
+    #version 330 core
     out vec4 outColor;
     void main()
     {
@@ -122,9 +115,12 @@ void Renderer::LoadTriangle()
     glBindFragDataLocation(shaderProgram, 0, "outColor");
     glLinkProgram(shaderProgram);
     glUseProgram(shaderProgram);
+	
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
 
     GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
     glEnableVertexAttribArray(posAttrib);
-    glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 }

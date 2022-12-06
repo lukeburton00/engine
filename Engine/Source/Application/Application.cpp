@@ -1,11 +1,5 @@
-//
-//  Application.cpp
-//  Engine
-//
-//  Created by Luke Burton on 12/4/22.
-//
-
 #include "Application.hpp"
+
 
 bool Application::Initialize(const int& SCREEN_WIDTH, const int& SCREEN_HEIGHT, const Uint32& flags)
 {
@@ -20,7 +14,6 @@ bool Application::Initialize(const int& SCREEN_WIDTH, const int& SCREEN_HEIGHT, 
     printf("Engine has initialized! \n\n");
 
     //Tests
-
 
     isInitialized = true;
     return isInitialized;
@@ -109,7 +102,7 @@ void Application::ProcessInput()
         printf("Key F is was released.\n");
     }
 
-    if (Input.IsKeyReleased("T"))
+    if (Input.IsKeyPressed("T"))
     {
         Renderer.LoadTriangle();
     }

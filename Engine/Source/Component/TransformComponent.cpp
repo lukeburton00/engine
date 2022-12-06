@@ -1,6 +1,8 @@
 #include "Component.hpp"
+#include "Vector2.hpp"
+#include <stdio.h>
 
 struct TestComponent : Component
 {
-	string name;
+	Vector2 position;
 };

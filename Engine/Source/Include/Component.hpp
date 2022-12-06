@@ -1,9 +1,3 @@
-//
-//  Component.hpp
-//  Engine
-//
-//  Created by Luke Burton on 12/4/22.
-//
 #pragma once
 
 #include <iostream>
@@ -11,9 +5,7 @@
 
 using namespace std;
 
-class Component
+struct Component
 {
-    public:
-        int id;
-        virtual void Update() = 0;
+	int id;
 };

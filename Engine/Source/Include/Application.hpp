@@ -1,9 +1,3 @@
-//
-//  Application.hpp
-//  Engine
-//
-//  Created by Luke Burton on 12/4/22.
-//
 #pragma once
 
 #include <iostream>
@@ -12,6 +6,9 @@
 #include <sstream>
 #include "InputSystem.hpp"
 #include "Renderer.hpp"
+#include "Entity.hpp"
+#include "Component.hpp"
+#include "../../Source/Component/testComponent.cpp"
 
 using namespace std;
 
@@ -38,9 +35,23 @@ private:
 
     InputSystem Input;
     Renderer Renderer;
+	
+	vector<Entity> entities;
+	vector<Component*> components;
 
 
     void ProcessInput();
     void Update();
     void Render();
+	
+	
+	
+
+
+
+	Entity CreateEntity(int id);
+	Component CreateComponent(int id);
+	void AddComponentToEntity(Component& testComponent, Entity& entity);
+	void UpdateTestEntityComponents(Entity& entity);
+	void TestEntityComponentFramework();
 };

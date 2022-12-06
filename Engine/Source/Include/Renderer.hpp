@@ -1,9 +1,3 @@
-//
-//  Renderer.hpp
-//  Engine
-//
-//  Created by Luke Burton on 12/4/22.
-//
 #pragma once
 #define GLEW_STATIC
 
