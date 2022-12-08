@@ -6,15 +6,75 @@ bool Application::Initialize(const int& SCREEN_WIDTH, const int& SCREEN_HEIGHT, 
     printf("\n\nInitializing engine...\n\n");
     bool isInitialized = true;
 
+	
+	
+	
+	/* Component Creation/Rendering tests */
+	
 	Entity testEntity = CreateEntity(1);
-	RenderComponent renderComponent = CreateComponent(420);
+	
+	const GLchar * vertexSource =
+	R"glsl(
+	#version 150 core
+	in vec2 position;
+	void main()
+	{
+		gl_Position = vec4(position, 0.0, 1.0);
+	})glsl";
+	
+	const GLchar * fragmentSource =
+	R"glsl(
+	#version 150 core
+	out vec4 outColor;
+	void main()
+	{
+		outColor = vec4(0.1, 1.0, 1.0, 1.0);
+	})glsl";
+	
+	vector<GLfloat> vertices =
+	{
+		-0.5f, -0.0f, 0.0f,
+		-0.6f, -0.1f, 0.0f,
+		-0.4f, -0.1f, 0.0f
+	};
+	
+	RenderComponent renderComponent = CreateComponent(420, 3, vertexSource, fragmentSource, vertices);
+	
 	RenderComponent * component;
 	component = &renderComponent;
 	testEntity.AddComponent(component);
 	
 	ComponentSys.registerRenderComponent(component);
 	
+	testEntity = CreateEntity(2);
+	
+	fragmentSource =
+	R"glsl(
+	#version 150 core
+	out vec4 outColor;
+	void main()
+	{
+		outColor = vec4(1.0, 1.0, 1.0, 1.0);
+	})glsl";
+	
+	vertices =
+	{
+		0.0f, 0.1f, 0.0f,
+		-0.1f, -0.1f, 0.0f,
+		0.1f, -0.1f, 0.0f
+	};
+	
+	RenderComponent renderComponent2 = CreateComponent(421, 3, vertexSource, fragmentSource, vertices);
+	
+	component = &renderComponent2;
+	testEntity.AddComponent(component);
+	
+	ComponentSys.registerRenderComponent(component);
+
+	
 	Renderer.renderComponents = ComponentSys.renderComponents;
+	
+	/* ----------------- */
 
     if(!Renderer.Initialize(SCREEN_WIDTH, SCREEN_HEIGHT, flags))
     {
@@ -60,6 +120,12 @@ void Application::Run()
     printf("Listening for input...\n\n");
     while (isRunning)
     {
+		if (Input.quitEvent == true)
+		{
+			isRunning = false;
+			break;
+		}
+		
         Uint64 previous = currentTime;
         ProcessInput();
         Update();
@@ -83,11 +149,7 @@ void Application::Run()
             frames = 0;
         }
 
-        if (Input.quitEvent == true)
-        {
-            isRunning = false;
-            break;
-        }
+        
     }
 }
 
@@ -146,37 +208,13 @@ Entity Application::CreateEntity(int id)
 	
 }
 
-RenderComponent Application::CreateComponent(int id)
+RenderComponent Application::CreateComponent(int id, GLuint vertexDataSize, const GLchar * vertexSource, const GLchar * fragmentSource, vector<GLfloat> vertices)
 {
 	RenderComponent renderComponent;
 	renderComponent.id = id;
-	renderComponent.vertices =
-	{
-		0.0f, 0.1f, 0.0f, //first vertex
-		0.1f,-0.1f, 0.0f, //second vertex
-		-0.1f, -0.1f //third vertex
-	};
-	
-	renderComponent.vertexDataSize = 3;
-	
-	const GLchar * vertexSource = R"glsl(
-	#version 150 core
-	in vec2 position;
-	void main()
-	{
-		gl_Position = vec4(position, 0.0, 1.0);
-	})glsl";
-	
-	const GLchar * fragmentSource = R"glsl(
-	#version 150 core
-	out vec4 outColor;
-	void main()
-	{
-		outColor = vec4(0.5, 1.0, 1.0, 1.0);
-	})glsl";
-	
+	renderComponent.vertexDataSize = vertexDataSize;
 	renderComponent.vertexSource = vertexSource;
 	renderComponent.fragmentSource = fragmentSource;
-	
+	renderComponent.vertices = vertices;
 	return renderComponent;
 }

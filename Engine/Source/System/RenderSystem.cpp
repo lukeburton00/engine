@@ -51,9 +51,10 @@ bool RenderSystem::Initialize(const int& SCREEN_WIDTH, const int& SCREEN_HEIGHT,
 		for (int i = 0; i < renderComponents.size(); i++)
 		{
 			cout << "Building VAO for component: " << renderComponents[i]->id << endl;
-			cout << "Component id: " << renderComponents[i]->id << endl;
 			buildVAO(renderComponents[i]);
 			buildShaderProgram(renderComponents[i]);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			glBindVertexArray(0);
 		}
 	}
 	
@@ -98,6 +99,10 @@ void RenderSystem::Draw(GLuint VAO, GLuint shaderProgram)
 {
 	glUseProgram(shaderProgram);
 	glBindVertexArray(VAO);
+	
+	cout << "Shader program in use: " << shaderProgram << endl;
+	cout << "VAO in use: " << VAO << endl;
+	
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 	glBindVertexArray(0);
 }
@@ -110,9 +115,7 @@ GLuint RenderSystem::buildVAO(RenderComponent * renderComponent)
 	for (int i = 0; i < arrLength; i++)
 	{
 		vertices[i] = renderComponent->vertices[i];
-		cout << "Vertex: " << vertices[i] << endl;
 	}
-	cout << "Total vertices: " << sizeof(vertices) / sizeof(GLfloat) << endl << endl;
 	
 	
 	
@@ -155,9 +158,6 @@ GLuint RenderSystem::buildShaderProgram(RenderComponent * renderComponent)
 	GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
 	glEnableVertexAttribArray(posAttrib);
 	glVertexAttribPointer(posAttrib, renderComponent->vertexDataSize, GL_FLOAT, GL_FALSE, 0, 0);
-	
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
 	
 	shaderPrograms.push_back(shaderProgram);
 	

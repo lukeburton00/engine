@@ -49,7 +49,7 @@ private:
 	
 
 	Entity CreateEntity(int id);
-	RenderComponent CreateComponent(int id);
+	RenderComponent CreateComponent(int id, GLuint vertexDataSize, const GLchar * vertexSource, const GLchar * fragmentSource, vector<GLfloat> vertices);
 	void AddComponentToEntity(Component& testComponent, Entity& entity);
 	void UpdateTestEntityComponents(Entity& entity);
 	void TestEntityComponentFramework();
