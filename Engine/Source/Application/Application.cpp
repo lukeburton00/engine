@@ -6,6 +6,16 @@ bool Application::Initialize(const int& SCREEN_WIDTH, const int& SCREEN_HEIGHT, 
     printf("\n\nInitializing engine...\n\n");
     bool isInitialized = true;
 
+	Entity testEntity = CreateEntity(1);
+	RenderComponent renderComponent = CreateComponent(420);
+	RenderComponent * component;
+	component = &renderComponent;
+	testEntity.AddComponent(component);
+	
+	ComponentSys.registerRenderComponent(component);
+	
+	Renderer.renderComponents = ComponentSys.renderComponents;
+
     if(!Renderer.Initialize(SCREEN_WIDTH, SCREEN_HEIGHT, flags))
     {
         printf("ERROR: Unable to initialize renderer.");
@@ -16,6 +26,9 @@ bool Application::Initialize(const int& SCREEN_WIDTH, const int& SCREEN_HEIGHT, 
     //Tests
 
     isInitialized = true;
+	
+	
+	
     return isInitialized;
 }
 
@@ -104,7 +117,7 @@ void Application::ProcessInput()
 
     if (Input.IsKeyPressed("T"))
     {
-        Renderer.LoadTriangle();
+		Renderer.Render();
     }
 
     if (Input.IsKeyPressed("Escape"))
@@ -122,4 +135,48 @@ void Application::Update()
 void Application::Render()
 {
     Renderer.Render();
+}
+
+Entity Application::CreateEntity(int id)
+{
+	Entity testEntity;
+	testEntity.id = id;
+	
+	return testEntity;
+	
+}
+
+RenderComponent Application::CreateComponent(int id)
+{
+	RenderComponent renderComponent;
+	renderComponent.id = id;
+	renderComponent.vertices =
+	{
+		0.0f, 0.1f, 0.0f, //first vertex
+		0.1f,-0.1f, 0.0f, //second vertex
+		-0.1f, -0.1f //third vertex
+	};
+	
+	renderComponent.vertexDataSize = 3;
+	
+	const GLchar * vertexSource = R"glsl(
+	#version 150 core
+	in vec2 position;
+	void main()
+	{
+		gl_Position = vec4(position, 0.0, 1.0);
+	})glsl";
+	
+	const GLchar * fragmentSource = R"glsl(
+	#version 150 core
+	out vec4 outColor;
+	void main()
+	{
+		outColor = vec4(0.5, 1.0, 1.0, 1.0);
+	})glsl";
+	
+	renderComponent.vertexSource = vertexSource;
+	renderComponent.fragmentSource = fragmentSource;
+	
+	return renderComponent;
 }

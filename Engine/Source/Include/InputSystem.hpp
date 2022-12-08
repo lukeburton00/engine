@@ -10,8 +10,8 @@ class InputSystem
 {
 	public:
 		void ProcessInput();
-		bool IsKeyPressed(const char* key);
-		bool IsKeyReleased(const char* key);
+		bool IsKeyPressed(const char * key);
+		bool IsKeyReleased(const char * key);
 		bool quitEvent;
 
 

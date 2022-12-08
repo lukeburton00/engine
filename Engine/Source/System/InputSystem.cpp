@@ -36,7 +36,7 @@ void InputSystem::ProcessInput()
 	}
 }
 
-bool InputSystem::IsKeyPressed(const char* keyName)
+bool InputSystem::IsKeyPressed(const char * keyName)
 {
 
 	if (count(pressedKeys.begin(), pressedKeys.end(), SDL_GetKeyFromName(keyName)))
@@ -46,7 +46,7 @@ bool InputSystem::IsKeyPressed(const char* keyName)
 	return false;
 }
 
-bool InputSystem::IsKeyReleased(const char* keyName)
+bool InputSystem::IsKeyReleased(const char * keyName)
 {
 	if (count(releasedKeys.begin(), releasedKeys.end(), SDL_GetKeyFromName(keyName)))
 	{

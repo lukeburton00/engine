@@ -5,10 +5,10 @@
 #include <stdio.h>
 #include <sstream>
 #include "InputSystem.hpp"
-#include "Renderer.hpp"
+#include "RenderSystem.hpp"
+#include "ComponentSystem.hpp"
 #include "Entity.hpp"
 #include "Component.hpp"
-#include "../../Source/Component/testComponent.cpp"
 
 using namespace std;
 
@@ -34,7 +34,8 @@ private:
     Uint64 totalElapsedTime;
 
     InputSystem Input;
-    Renderer Renderer;
+    RenderSystem Renderer;
+	ComponentSystem ComponentSys;
 	
 	vector<Entity> entities;
 	vector<Component*> components;
@@ -43,14 +44,12 @@ private:
     void ProcessInput();
     void Update();
     void Render();
-	
-	
-	
 
-
+	
+	
 
 	Entity CreateEntity(int id);
-	Component CreateComponent(int id);
+	RenderComponent CreateComponent(int id);
 	void AddComponentToEntity(Component& testComponent, Entity& entity);
 	void UpdateTestEntityComponents(Entity& entity);
 	void TestEntityComponentFramework();

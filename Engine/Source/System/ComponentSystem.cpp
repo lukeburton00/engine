@@ -1,6 +1,20 @@
 #include "ComponentSystem.hpp"
 
-void ComponentSystem::registerComponent(Component * component, vector<Component> * componentVector)
+void ComponentSystem::registerRenderComponent(RenderComponent * component)
 {
-	componentVector->push_back(*component);
+	renderComponents.push_back(component);
 }
+
+void ComponentSystem::disableComponent(Component * component, vector<Component*> componentVector)
+{
+	if (count(componentVector.begin(), componentVector.end(), component))
+	{
+		componentVector.erase(remove(componentVector.begin(), componentVector.end(), component));
+	}
+	
+	else
+	{
+		printf("Attempted to disable an unregistered component!");
+	}
+}
+

@@ -1,16 +1,17 @@
 #pragma once
 #include <stdio.h>
-#include "Component.hpp"
+#include "Component/Component.hpp"
 
 class ComponentSystem
 {
 public:
 	vector<Component*> transformComponents;
 	vector<Component*> physicsComponents;
-	vector<Component*> spriteComponents;
+	vector<RenderComponent*> renderComponents;
 	vector<Component*> colliderComponents;
 	vector<Component*> scriptComponents;
 
 
-	void registerComponent(Component * component, vector<Component> * componentVector);
+	void registerRenderComponent(RenderComponent * component);
+	void disableComponent(Component * component, vector<Component*> componentVector);
 };
