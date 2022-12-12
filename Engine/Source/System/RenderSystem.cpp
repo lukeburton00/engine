@@ -23,7 +23,7 @@ bool RenderSystem::Initialize(const int& SCREEN_WIDTH, const int& SCREEN_HEIGHT,
         SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 
         //Create window
-        window = SDL_CreateWindow( "Hello OpenGL", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, flags);
+        window = SDL_CreateWindow( "Engine", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, flags);
         if( window == NULL )
         {
             printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
@@ -50,9 +50,8 @@ bool RenderSystem::Initialize(const int& SCREEN_WIDTH, const int& SCREEN_HEIGHT,
 	{
 		for (int i = 0; i < renderComponents.size(); i++)
 		{
-			cout << "Building VAO for component: " << renderComponents[i]->id << endl;
+			std::cout << "Building VAO for component: " << renderComponents[i]->id << std::endl;
 			buildVAO(renderComponents[i]);
-			buildShaderProgram(renderComponents[i]);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			glBindVertexArray(0);
 		}
@@ -60,10 +59,14 @@ bool RenderSystem::Initialize(const int& SCREEN_WIDTH, const int& SCREEN_HEIGHT,
 	
 	else
 	{
-		printf("No renderComponents to prepare");
+		printf("No renderComponents to prepare.\n\n");
 	}
 	
+	Shader triangleShader( "triangleVertexShader.vs", "triangleFragmentShader.fs" );
+	addShader(triangleShader);
+	
     printf("Renderer initialized!\n\n");
+	
     return success;
 }
 
@@ -80,11 +83,13 @@ void RenderSystem::Shutdown()
 
 void RenderSystem::Render()
 {
-	if (VAOs.size() > 0)
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+	if (VAOs.size() > 0 && shaders.size() > 0)
 	{
 		for (int i = 0; i < VAOs.size(); i++)
 		{
-			Draw(VAOs[i], shaderPrograms[i]);
+			Draw(VAOs[i], shaders[i]);
 		}
 		SDL_GL_SwapWindow(window);
 	}
@@ -95,19 +100,15 @@ void RenderSystem::Render()
 	}
 }
 
-void RenderSystem::Draw(GLuint VAO, GLuint shaderProgram)
+void RenderSystem::Draw(GLuint VAO, Shader shader)
 {
-	glUseProgram(shaderProgram);
+	shader.use();
 	glBindVertexArray(VAO);
-	
-	cout << "Shader program in use: " << shaderProgram << endl;
-	cout << "VAO in use: " << VAO << endl;
-	
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 	glBindVertexArray(0);
 }
 
-GLuint RenderSystem::buildVAO(RenderComponent * renderComponent)
+void RenderSystem::buildVAO(RenderComponent * renderComponent)
 {
 	GLulong arrLength = renderComponent->vertices.size();
 	GLfloat vertices[arrLength];
@@ -116,8 +117,6 @@ GLuint RenderSystem::buildVAO(RenderComponent * renderComponent)
 	{
 		vertices[i] = renderComponent->vertices[i];
 	}
-	
-	
 	
 	GLuint vertexArrayObject = renderComponent->id;
 	glGenVertexArrays(1, &vertexArrayObject);
@@ -128,40 +127,19 @@ GLuint RenderSystem::buildVAO(RenderComponent * renderComponent)
 	
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+	
 	VAOs.push_back(vertexArrayObject);
-
-	return vertexArrayObject;
+	
+	glBindVertexArray(0);
 }
 
-GLuint RenderSystem::buildShaderProgram(RenderComponent * renderComponent)
+void RenderSystem::addShader(Shader shader)
 {
-	const GLchar * vertexSource = renderComponent->vertexSource;
-	const GLchar * fragmentSource = renderComponent->fragmentSource;
-	
-	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexSource, NULL);
-	glCompileShader(vertexShader);
-
-	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
-	glCompileShader(fragmentShader);
-
-	GLuint shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glBindFragDataLocation(shaderProgram, 0, "outColor");
-	glLinkProgram(shaderProgram);
-	
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
-	
-	GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
-	glEnableVertexAttribArray(posAttrib);
-	glVertexAttribPointer(posAttrib, renderComponent->vertexDataSize, GL_FLOAT, GL_FALSE, 0, 0);
-	
-	shaderPrograms.push_back(shaderProgram);
-	
-	return shaderProgram;
+	shaders.push_back(shader);
 }
-
-

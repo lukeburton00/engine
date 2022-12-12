@@ -5,14 +5,12 @@
 #include <vector>
 #include "Component.hpp"
 
-using namespace std;
-
 class Entity
 {
-    public:
+public:
     int id;
 
-    vector<Component*> components;
+    std::vector<Component*> components;
 
     void AddComponent(Component * component);
     void RemoveComponent(Component * component);

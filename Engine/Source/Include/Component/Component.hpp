@@ -2,10 +2,9 @@
 
 #include <iostream>
 #include <vector>
-#include <GL/glew.h>
 #include "Math/Vector2.hpp"
+#include "Render/Shader.hpp"
 
-using namespace std;
 
 struct Component
 {
@@ -14,10 +13,7 @@ struct Component
 
 struct RenderComponent : Component
 {
-	const GLchar * vertexSource;
-	const GLchar * fragmentSource;
-	GLuint vertexDataSize;
-	vector<GLfloat> vertices;
+	std::vector<GLfloat> vertices;
 };
 
 struct TestComponent : Component

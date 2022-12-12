@@ -5,13 +5,13 @@
 class ComponentSystem
 {
 public:
-	vector<Component*> transformComponents;
-	vector<Component*> physicsComponents;
-	vector<RenderComponent*> renderComponents;
-	vector<Component*> colliderComponents;
-	vector<Component*> scriptComponents;
+	std::vector<Component*> transformComponents;
+	std::vector<Component*> physicsComponents;
+	std::vector<RenderComponent*> renderComponents;
+	std::vector<Component*> colliderComponents;
+	std::vector<Component*> scriptComponents;
 
 
 	void registerRenderComponent(RenderComponent * component);
-	void disableComponent(Component * component, vector<Component*> componentVector);
+	void disableComponent(Component * component, std::vector<Component*> componentVector);
 };

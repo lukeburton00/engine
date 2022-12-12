@@ -8,9 +8,7 @@
 #include <GL/glew.h>
 #include "SDL2/SDL_opengl.h"
 #include "ComponentSystem.hpp"
-
-
-using namespace std;
+#include "Render/Shader.hpp"
 
 class RenderSystem
 {
@@ -19,9 +17,11 @@ public:
     SDL_Surface* screenSurface;
     SDL_GLContext glContext;
 	
-	vector<RenderComponent*> renderComponents;
-	vector<GLuint> VAOs;
-	vector<GLuint> shaderPrograms;
+	std::vector<RenderComponent*> renderComponents;
+	std::vector<GLuint> VAOs;
+	std::vector<Shader> shaders;
+	void addShader(Shader shader);
+
 
     bool Initialize(const int& SCREEN_WIDTH, const int& SCREEN_HEIGHT, const Uint32& flags);
     void Shutdown();
@@ -30,12 +30,7 @@ public:
     
 private:
 	
-	GLuint buildVAO(RenderComponent * renderComponent);
-	GLuint buildShaderProgram(RenderComponent * renderComponent);
-	
-	void buildAllVAOs();
-	void buildAllShaderPrograms();
-	
-	void Draw(GLuint VAO, GLuint shaderProgram);
+	void buildVAO(RenderComponent * renderComponent);
+	void Draw(GLuint VAO, Shader shader);
 
 };

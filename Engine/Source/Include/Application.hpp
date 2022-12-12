@@ -5,12 +5,10 @@
 #include <stdio.h>
 #include <sstream>
 #include "InputSystem.hpp"
-#include "RenderSystem.hpp"
+#include "Render/RenderSystem.hpp"
 #include "ComponentSystem.hpp"
 #include "Entity.hpp"
 #include "Component.hpp"
-
-using namespace std;
 
 class Application
 {
@@ -22,10 +20,10 @@ public:
 private:
     bool isRunning;
 
-    stringstream secondsText;
-    stringstream framesText;
-    stringstream framesPerSecondText;
-    stringstream averagefpsText;
+    std::stringstream secondsText;
+    std::stringstream framesText;
+    std::stringstream framesPerSecondText;
+    std::stringstream averagefpsText;
     Uint64 deltaTime;
     Uint64 elapsedTime;
     Uint64 seconds;
@@ -37,20 +35,13 @@ private:
     RenderSystem Renderer;
 	ComponentSystem ComponentSys;
 	
-	vector<Entity> entities;
-	vector<Component*> components;
+	std::vector<Entity> entities;
+	std::vector<Component*> components;
 
 
     void ProcessInput();
     void Update();
     void Render();
-
 	
-	
-
-	Entity CreateEntity(int id);
-	RenderComponent CreateComponent(int id, GLuint vertexDataSize, const GLchar * vertexSource, const GLchar * fragmentSource, vector<GLfloat> vertices);
-	void AddComponentToEntity(Component& testComponent, Entity& entity);
-	void UpdateTestEntityComponents(Entity& entity);
-	void TestEntityComponentFramework();
+	RenderComponent CreateComponent(int id, std::vector<GLfloat> vertices);
 };

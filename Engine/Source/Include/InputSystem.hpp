@@ -4,8 +4,6 @@
 #include <vector>
 #include <iostream>
 
-using namespace std;
-
 class InputSystem
 {
 	public:
@@ -17,8 +15,8 @@ class InputSystem
 
 	private:
 		SDL_Keycode keyCodeDown;
-		vector<SDL_Keycode> pressedKeys;
-		vector<SDL_Keycode> releasedKeys;
+		std::vector<SDL_Keycode> pressedKeys;
+		std::vector<SDL_Keycode> releasedKeys;
 		SDL_Keycode keyCodeUp;
 		SDL_Event event;
 

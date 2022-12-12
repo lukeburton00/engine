@@ -11,66 +11,18 @@ bool Application::Initialize(const int& SCREEN_WIDTH, const int& SCREEN_HEIGHT, 
 	
 	/* Component Creation/Rendering tests */
 	
-	Entity testEntity = CreateEntity(1);
-	
-	const GLchar * vertexSource =
-	R"glsl(
-	#version 150 core
-	in vec2 position;
-	void main()
+	std::vector<GLfloat> vertices =
 	{
-		gl_Position = vec4(position, 0.0, 1.0);
-	})glsl";
-	
-	const GLchar * fragmentSource =
-	R"glsl(
-	#version 150 core
-	out vec4 outColor;
-	void main()
-	{
-		outColor = vec4(0.1, 1.0, 1.0, 1.0);
-	})glsl";
-	
-	vector<GLfloat> vertices =
-	{
-		-0.5f, -0.0f, 0.0f,
-		-0.6f, -0.1f, 0.0f,
-		-0.4f, -0.1f, 0.0f
+		0.0f, 0.5f, 0.0f, /* vPos1 */ 1.0f, 0.0f, 0.0f, /* vColor1 */
+		-0.5f, -0.5f, 0.0f, /* vPos2 */ 0.0f, 1.0f, 0.0f, /* vColor2 */
+		0.5f, -0.5f, 0.0f, /* vPos3 */ 0.0f, 0.0f, 1.0f /* vColor3 */
 	};
 	
-	RenderComponent renderComponent = CreateComponent(420, 3, vertexSource, fragmentSource, vertices);
+	RenderComponent component = CreateComponent(1, vertices);
+	RenderComponent * componentPointer;
+	componentPointer = &component;
 	
-	RenderComponent * component;
-	component = &renderComponent;
-	testEntity.AddComponent(component);
-	
-	ComponentSys.registerRenderComponent(component);
-	
-	testEntity = CreateEntity(2);
-	
-	fragmentSource =
-	R"glsl(
-	#version 150 core
-	out vec4 outColor;
-	void main()
-	{
-		outColor = vec4(1.0, 1.0, 1.0, 1.0);
-	})glsl";
-	
-	vertices =
-	{
-		0.0f, 0.1f, 0.0f,
-		-0.1f, -0.1f, 0.0f,
-		0.1f, -0.1f, 0.0f
-	};
-	
-	RenderComponent renderComponent2 = CreateComponent(421, 3, vertexSource, fragmentSource, vertices);
-	
-	component = &renderComponent2;
-	testEntity.AddComponent(component);
-	
-	ComponentSys.registerRenderComponent(component);
-
+	ComponentSys.registerRenderComponent(componentPointer);
 	
 	Renderer.renderComponents = ComponentSys.renderComponents;
 	
@@ -101,7 +53,7 @@ void Application::Shutdown()
     printf("Engine has shut down.\n\n");
 
     averagefpsText << totalFrames / totalElapsedTime;
-    cout << "Average framerate: " << averagefpsText.str() << " frames per second." << endl;
+    std::cout << "Average framerate: " << averagefpsText.str() << " frames per second." << std::endl;
 }
 
 void Application::Run()
@@ -199,22 +151,11 @@ void Application::Render()
     Renderer.Render();
 }
 
-Entity Application::CreateEntity(int id)
-{
-	Entity testEntity;
-	testEntity.id = id;
-	
-	return testEntity;
-	
-}
-
-RenderComponent Application::CreateComponent(int id, GLuint vertexDataSize, const GLchar * vertexSource, const GLchar * fragmentSource, vector<GLfloat> vertices)
+RenderComponent Application::CreateComponent(int id, std::vector<GLfloat> vertices)
 {
 	RenderComponent renderComponent;
 	renderComponent.id = id;
-	renderComponent.vertexDataSize = vertexDataSize;
-	renderComponent.vertexSource = vertexSource;
-	renderComponent.fragmentSource = fragmentSource;
 	renderComponent.vertices = vertices;
+
 	return renderComponent;
 }

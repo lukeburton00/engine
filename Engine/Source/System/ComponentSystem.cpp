@@ -5,7 +5,7 @@ void ComponentSystem::registerRenderComponent(RenderComponent * component)
 	renderComponents.push_back(component);
 }
 
-void ComponentSystem::disableComponent(Component * component, vector<Component*> componentVector)
+void ComponentSystem::disableComponent(Component * component, std::vector<Component*> componentVector)
 {
 	if (count(componentVector.begin(), componentVector.end(), component))
 	{

@@ -11,6 +11,7 @@
 #include <SDL2/SDL.h>
 #include "SDL2/SDL_opengl.h"
 #include "Application.hpp"
+#include <unistd.h>
 
 using namespace std;
 
@@ -21,6 +22,11 @@ Uint32 flags = SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL;
 
 int main(int argc, char* args[])
 {
+	
+	
+	char s[100];
+	printf("%s\n", getcwd(s, 100));
+	
     static Application Engine;
 
     if(Engine.Initialize(SCREEN_WIDTH,SCREEN_HEIGHT, flags))
