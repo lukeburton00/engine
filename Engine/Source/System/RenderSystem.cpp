@@ -32,17 +32,11 @@ bool RenderSystem::Initialize(const int& SCREEN_WIDTH, const int& SCREEN_HEIGHT,
 
         else
         {
-            printf("Creating OpenGL context...\n");
             glContext = SDL_GL_CreateContext(window);
-            printf("OpenGL context created!\n\n");
         }
-
-        printf("Initializing GLEW...\n");
 
         glewExperimental = GL_TRUE;
         glewInit();
-
-        printf("GLEW initialized!\n\n");
 
     }
 	

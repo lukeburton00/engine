@@ -8,7 +8,7 @@
 #include <GL/glew.h>
 #include "SDL2/SDL_opengl.h"
 #include "ComponentSystem.hpp"
-#include "Render/Shader.hpp"
+#include "Shader.hpp"
 
 class RenderSystem
 {

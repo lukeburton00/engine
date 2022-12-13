@@ -23,17 +23,11 @@ Uint32 flags = SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL;
 int main(int argc, char* args[])
 {
 	
-	
-	char s[100];
-	printf("%s\n", getcwd(s, 100));
-	
     static Application Engine;
 
     if(Engine.Initialize(SCREEN_WIDTH,SCREEN_HEIGHT, flags))
     {
-        printf("Spinning up engine loop...\n\n");
         Engine.Run();
-        printf("Engine loop ran nominally!\n\n");
     }
 
     else
