@@ -4,30 +4,24 @@ bool Application::Initialize(const int& SCREEN_WIDTH, const int& SCREEN_HEIGHT, 
 {
 	bool isInitialized = false;
 	
-	/* Component Creation/Rendering tests */
-	std::vector<GLfloat> vertices =
+	RenderComponent renderComponent;
+	
+	renderComponent.vertices =
 	{
-		0.0f, 0.5f, 0.0f, /* vPos1 */ 1.0f, 0.0f, 0.0f, /* vColor1 */
-		-0.5f, -0.5f, 0.0f, /* vPos2 */ 0.0f, 1.0f, 0.0f, /* vColor2 */
-		0.5f, -0.5f, 0.0f, /* vPos3 */ 0.0f, 0.0f, 1.0f /* vColor3 */
+		0.0f,0.5f, 0.0f, /* vertex 1 */ 0.5f, 0.0f, 0.0f, /* color 1 */
+		0.5f, -0.5f, 0.0f, /* vertex 2 */ 0.0f, 0.5f, 0.0f, /* color 2 */
+		-0.5f, -0.5f, 0.0f, /* vertex 3 */ 0.0f, 0.0f, 0.5f /* color 3 */
 	};
 	
-	RenderComponent component = CreateComponent(1, vertices);
-	RenderComponent * componentPointer;
-	componentPointer = &component;
+	renderComponent.id = 1;
 	
-	ComponentSys.registerRenderComponent(componentPointer);
+	Renderer.addRenderComponent(&renderComponent);
 	
-	Renderer.renderComponents = ComponentSys.renderComponents;
-	
-	/* ----------------- */
 	
     if(!Renderer.Initialize(SCREEN_WIDTH, SCREEN_HEIGHT, flags))
     {
         printf("ERROR: Unable to initialize renderer.");
     }
-	
-	
 	
 	isInitialized = true;
     return isInitialized;
@@ -87,13 +81,4 @@ void Application::Update()
 void Application::Render()
 {
     Renderer.Render();
-}
-
-RenderComponent Application::CreateComponent(int id, std::vector<GLfloat> vertices)
-{
-	RenderComponent renderComponent;
-	renderComponent.id = id;
-	renderComponent.vertices = vertices;
-
-	return renderComponent;
 }

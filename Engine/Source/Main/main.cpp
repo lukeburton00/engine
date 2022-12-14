@@ -11,9 +11,6 @@
 #include <SDL2/SDL.h>
 #include "SDL2/SDL_opengl.h"
 #include "Application.hpp"
-#include <unistd.h>
-
-using namespace std;
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 800;
