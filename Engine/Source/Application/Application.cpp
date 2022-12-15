@@ -4,21 +4,26 @@ bool Application::Initialize(const int& SCREEN_WIDTH, const int& SCREEN_HEIGHT, 
 {
 	bool isInitialized = false;
 	
-	RenderComponent renderComponent;
+	/* ObjectManager tests */
 	
-	renderComponent.vertices =
+	renderer.pObjectManager = &objectManager;
+	
+	GameObject object1 = objectManager.createGameObject("GameObject1");
+	RenderComponent render1 = objectManager.createRenderComponent("GameObject1");
+	
+	render1.vertices =
 	{
-		0.0f,0.5f, 0.0f, /* vertex 1 */ 0.5f, 0.0f, 0.0f, /* color 1 */
-		0.5f, -0.5f, 0.0f, /* vertex 2 */ 0.0f, 0.5f, 0.0f, /* color 2 */
-		-0.5f, -0.5f, 0.0f, /* vertex 3 */ 0.0f, 0.0f, 0.5f /* color 3 */
+		0.0f, 0.5f, 0.0f, /* pos 1 */ 1.0f, 0.0f, 0.0f, /* color 1 */
+		0.5f, -0.5f, 0.0f, /* pos 2 */ 0.0f, 1.0f, 0.f, /* color 2 */
+		-0.5f, -0.5f, 0.0f, /* pos 3 */ 0.0f, 0.0f, 1.0f /* color 2 */
 	};
 	
-	renderComponent.id = 1;
+	RenderComponent * pRender = &render1;
+	renderer.addRenderComponent(pRender);
 	
-	Renderer.addRenderComponent(&renderComponent);
+	/* ------------------- */
 	
-	
-    if(!Renderer.Initialize(SCREEN_WIDTH, SCREEN_HEIGHT, flags))
+    if(!renderer.Initialize(SCREEN_WIDTH, SCREEN_HEIGHT, flags))
     {
         printf("ERROR: Unable to initialize renderer.");
     }
@@ -29,7 +34,7 @@ bool Application::Initialize(const int& SCREEN_WIDTH, const int& SCREEN_HEIGHT, 
 
 void Application::Shutdown()
 {
-    Renderer.Shutdown();
+    renderer.Shutdown();
 }
 
 void Application::Run()
@@ -80,5 +85,5 @@ void Application::Update()
 
 void Application::Render()
 {
-    Renderer.Render();
+    renderer.Render();
 }

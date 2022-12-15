@@ -1,17 +1,31 @@
 #pragma once
+
 #include <iostream>
 #include <stdio.h>
 #include <vector>
 #include "Component.hpp"
-#include <string>
 
 class GameObject
 {
 public:
-	std::string name;
-    int id;
-
-    std::vector<Component*> components;
-    void addComponent(Component * component);
-    void removeComponent(Component * component);
+    int mId;
+	std::string mName;
+	std::vector<Component*> mComponents;
+	
+	GameObject(int pId, std::string pName)
+	{
+		mId = pId;
+		mName = pName;
+	}
+	
+	~GameObject()
+	{
+		for (int iComponent = 0; iComponent < mComponents.size(); iComponent++)
+		{
+			delete mComponents[iComponent];
+		}
+	}
+	
+	void addComponent(Component * component);
+	void removeComponent(Component * component);
 };

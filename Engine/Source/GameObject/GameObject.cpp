@@ -1,11 +1,11 @@
 #include "GameObject.hpp"
 
-void GameObject::addComponent(Component * component)
+void GameObject::addComponent(Component * pComponent)
 {
-    components.push_back(component);
+    mComponents.push_back(pComponent);
 }
 
-void GameObject::removeComponent(Component * component)
+void GameObject::removeComponent(Component * pComponent)
 {
-    components.erase(remove(components.begin(), components.end(), component));
+    mComponents.erase(remove(mComponents.begin(), mComponents.end(), pComponent));
 }

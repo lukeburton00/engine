@@ -2,7 +2,6 @@
 
 bool RenderSystem::Initialize(const int& SCREEN_WIDTH, const int& SCREEN_HEIGHT, const Uint32& flags)
 {
-    printf("Initializing renderer...\n\n");
     screenSurface = NULL;
     window = NULL;
     bool success = true;
@@ -44,7 +43,7 @@ bool RenderSystem::Initialize(const int& SCREEN_WIDTH, const int& SCREEN_HEIGHT,
 	{
 		for (int i = 0; i < renderComponents.size(); i++)
 		{
-			std::cout << "Building VAO for component: " << renderComponents[i]->id << std::endl;
+			//std::cout << "Building VAO for component: " << renderComponents[i]->id << std::endl;
 			buildVAO(renderComponents[i]);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			glBindVertexArray(0);
@@ -59,20 +58,16 @@ bool RenderSystem::Initialize(const int& SCREEN_WIDTH, const int& SCREEN_HEIGHT,
 	Shader triangleShader( "triangleVertexShader.vs", "triangleFragmentShader.fs" );
 	addShader(triangleShader);
 	
-    printf("Renderer initialized!\n\n");
-	
     return success;
 }
 
 void RenderSystem::Shutdown()
 {
-    printf("\nShutting down renderer...\n");
     SDL_DestroyWindow( window );
 
     //Quit SDL subsystems
     SDL_GL_DeleteContext(glContext);
     SDL_Quit();
-    printf("Renderer has shut down.\n\n");
 }
 
 void RenderSystem::addRenderComponent(RenderComponent *renderComponent)

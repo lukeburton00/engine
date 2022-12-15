@@ -7,10 +7,20 @@
 class ObjectManager
 {
 public:
-	void addGameObject(GameObject * pObject, std::string name);
-	void removeGameObject(std::string name);
-	GameObject getGameObject(std::string name);
+	ObjectManager()
+	{
+		mGameObjectIdIncrement = 0;
+		mComponentIdIncrement = 0;
+	}
+	GameObject createGameObject( std::string name );
+	void removeGameObject( std::string name );
+	
+	RenderComponent createRenderComponent( std::string name );
+	void removeComponent( std::string pName, Component * pComponent );
+	GameObject getGameObject( std::string pName );
 	
 private:
-	std::map< std::string, GameObject* > mGameObjects;
+	int mGameObjectIdIncrement;
+	int mComponentIdIncrement;
+	std::map<std::string, GameObject*> mGameObjects;
 };
