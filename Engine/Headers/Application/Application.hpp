@@ -19,9 +19,9 @@ public:
     void Run();
 
 private:
-	ObjectManager objectManager;
+	ObjectManager * objectManager;
     InputSystem Input;
-	RenderSystem renderer;
+	RenderSystem Renderer;
 
     void ProcessInput();
     void Update();

@@ -1,11 +1,20 @@
 #include "GameObject.hpp"
 
-void GameObject::addComponent(Component * pComponent)
+std::shared_ptr<Component> GameObject::getComponent(ComponentType componentType)
 {
-    mComponents.push_back(pComponent);
+	// Check if component of type exists
+	if (mComponents.count(componentType) == 0)
+	{
+		// Warn command user of nullptr in case of no component
+		printf("WARNING: No component of type %d on GameObject %s. NULLPTR returned.", componentType, mName.c_str());
+		return nullptr;
+	}
+	
+	// Get component of type by type reference
+	return mComponents[componentType];
 }
 
-void GameObject::removeComponent(Component * pComponent)
+void GameObject::addComponent(std::shared_ptr<Component> component)
 {
-    mComponents.erase(remove(mComponents.begin(), mComponents.end(), pComponent));
+	mComponents[component->mType] = component;
 }

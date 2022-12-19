@@ -5,25 +5,23 @@ bool Application::Initialize(const int& SCREEN_WIDTH, const int& SCREEN_HEIGHT, 
 	bool isInitialized = false;
 	
 	/* ObjectManager tests */
+	RenderSystem * pRenderer = &Renderer;
+	objectManager = new ObjectManager(pRenderer);
+	objectManager->createGameObject("GameObject1");
 	
-	renderer.pObjectManager = &objectManager;
+	auto renderComponent = objectManager->createRenderComponent("GameObject1");
 	
-	GameObject object1 = objectManager.createGameObject("GameObject1");
-	RenderComponent render1 = objectManager.createRenderComponent("GameObject1");
-	
-	render1.vertices =
+	renderComponent->mVertices =
 	{
-		0.0f, 0.5f, 0.0f, /* pos 1 */ 1.0f, 0.0f, 0.0f, /* color 1 */
-		0.5f, -0.5f, 0.0f, /* pos 2 */ 0.0f, 1.0f, 0.f, /* color 2 */
-		-0.5f, -0.5f, 0.0f, /* pos 3 */ 0.0f, 0.0f, 1.0f /* color 2 */
+		0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
+		0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f
 	};
 	
-	RenderComponent * pRender = &render1;
-	renderer.addRenderComponent(pRender);
 	
 	/* ------------------- */
 	
-    if(!renderer.Initialize(SCREEN_WIDTH, SCREEN_HEIGHT, flags))
+    if(!Renderer.Initialize(SCREEN_WIDTH, SCREEN_HEIGHT, flags))
     {
         printf("ERROR: Unable to initialize renderer.");
     }
@@ -34,7 +32,8 @@ bool Application::Initialize(const int& SCREEN_WIDTH, const int& SCREEN_HEIGHT, 
 
 void Application::Shutdown()
 {
-    renderer.Shutdown();
+	delete objectManager;
+    Renderer.Shutdown();
 }
 
 void Application::Run()
@@ -51,39 +50,17 @@ void Application::Run()
 void Application::ProcessInput()
 {
     Input.ProcessInput();
+}
 
-    if (Input.IsKeyPressed("A"))
-    {
-        printf("Key A is pressed.\n");
-    }
-
-    if (Input.IsKeyPressed("S"))
-    {
-        printf("Key S is pressed.\n");
-    }
-
-    if (Input.IsKeyReleased("D"))
-    {
-        printf("Key D is was released.\n");
-    }
-
-    if (Input.IsKeyReleased("F"))
-    {
-        printf("Key F is was released.\n");
-    }
-	
+void Application::Update()
+{
 	if (Input.IsKeyPressed("Escape"))
 	{
 		isRunning = false;
 	}
 }
 
-void Application::Update()
-{
-
-}
-
 void Application::Render()
 {
-    renderer.Render();
+    Renderer.Render();
 }

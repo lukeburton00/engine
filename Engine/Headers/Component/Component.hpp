@@ -5,55 +5,52 @@
 #include "glm.hpp"
 #include "Shader.hpp"
 
-enum componentType
+enum ComponentType
 {
 	renderComponent,
-	positionComponent
+	transformComponent
 };
 
 struct Component
 {
-	int id;
-	int parentGameObject;
-	componentType type;
+	int mId;
+	int mParentObjectId;
+	ComponentType mType;
 };
 
 struct RenderComponent : Component
 {
-	std::vector<GLfloat> vertices;
+	std::vector<GLfloat> mVertices;
 	
-	RenderComponent(int id, int parentId)
+	RenderComponent(int id)
 	{
-		this->id = id;
-		this->parentGameObject = parentId;
-		this->type = renderComponent;
+		mId = id;
+		mType = renderComponent;
 	}
 	
 	RenderComponent(int id, std::vector<GLfloat> vertices)
 	{
-		this->id = id;
-		this->vertices = vertices;
-		this->type = renderComponent;
+		mId = id;
+		mVertices = vertices;
+		mType = renderComponent;
 	}
 };
 
-struct PositionComponent : Component
+struct TransformComponent : Component
 {
-	glm::vec3 position;
+	glm::vec3 mPosition;
 
-	PositionComponent(int id, int parentId)
+	TransformComponent(int id)
 	{
-		this->id = id;
-		this->parentGameObject = parentId;
-		this->position = glm::vec3(0,0,0);
-		this->type = positionComponent;
+		mId = id;
+		mPosition = glm::vec3(0,0,0);
+		mType = transformComponent;
 	}
 	
-	PositionComponent(int id, int parentId, glm::vec3 position)
+	TransformComponent(int id, glm::vec3 position)
 	{
-		this->id = id;
-		this->parentGameObject = parentId;
-		this->position = position;
-		this->type = positionComponent;
+		mId = id;
+		mPosition = position;
+		mType = transformComponent;
 	}
 };

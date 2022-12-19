@@ -4,28 +4,23 @@
 #include <stdio.h>
 #include <vector>
 #include "Component.hpp"
+#include <map>
 
 class GameObject
 {
 public:
-    int mId;
+	int mId;
 	std::string mName;
-	std::vector<Component*> mComponents;
 	
-	GameObject(int pId, std::string pName)
+	GameObject(int id, std::string name)
 	{
-		mId = pId;
-		mName = pName;
+		mId = id;
+		mName = name;
 	}
 	
-	~GameObject()
-	{
-		for (int iComponent = 0; iComponent < mComponents.size(); iComponent++)
-		{
-			delete mComponents[iComponent];
-		}
-	}
+	void addComponent(std::shared_ptr<Component> component);
+	std::shared_ptr<Component> getComponent(ComponentType componentType);
 	
-	void addComponent(Component * component);
-	void removeComponent(Component * component);
+private:
+	std::map<ComponentType, std::shared_ptr<Component>> mComponents;
 };

@@ -1,32 +1,42 @@
 #include "ObjectManager.hpp"
 
-GameObject ObjectManager::createGameObject(std::string name)
+std::shared_ptr<GameObject> ObjectManager::createGameObject(std::string name)
 {
-	GameObject * object = new GameObject(mGameObjectIdIncrement, name);
+	// Create gameObject and assign to a pointer
+	std::shared_ptr<GameObject> object = std::make_shared<GameObject>(mGameObjectIdIncrement, name);
+	
+	// Map gameObject to its name
 	mGameObjects[name] = object;
-	return *object;
+	
+	// Auto-increment object ID
+	mGameObjectIdIncrement++;
+	
+	return object;
 }
 
 void ObjectManager::removeGameObject(std::string name)
 {
-	delete mGameObjects[name];
+	// Remove object pointer from map by name reference
+	mGameObjects.erase(name);
 }
 
-RenderComponent ObjectManager::createRenderComponent(std::string name)
+std::shared_ptr<RenderComponent> ObjectManager::createRenderComponent(std::string name)
 {
-	RenderComponent * component = new RenderComponent(mComponentIdIncrement, mGameObjectIdIncrement);
+	// Create component and assign to a pointer
+	std::shared_ptr<RenderComponent> component = std::make_shared<RenderComponent>(mComponentIdIncrement);
 	
+	// Give component to parent gameObject
 	mGameObjects[name]->addComponent(component);
 	
-	return *component;
+	// Assign parent ID in component
+	component->mParentObjectId = mGameObjects[name]->mId;
+	
+	return component;
 }
 
-void ObjectManager::removeComponent(std::string name, Component * pComponent)
+std::shared_ptr<GameObject> ObjectManager::getGameObject(std::string name)
 {
-	mGameObjects[name]->removeComponent(pComponent);
-}
-
-GameObject ObjectManager::getGameObject(std::string name)
-{
-	return *mGameObjects[name];
+	// Get pointer to gameObject by name reference
+	// This allows other scripts to manipulate gameObject
+	return mGameObjects[name];
 }

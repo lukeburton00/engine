@@ -3,24 +3,29 @@
 #include <vector>
 #include <map>
 #include "GameObject.hpp"
+#include "RenderSystem.hpp"
 
 class ObjectManager
 {
 public:
-	ObjectManager()
+	RenderSystem * mRenderer;
+	ObjectManager(RenderSystem * renderer)
 	{
+		mRenderer = renderer;
 		mGameObjectIdIncrement = 0;
-		mComponentIdIncrement = 0;
 	}
-	GameObject createGameObject( std::string name );
-	void removeGameObject( std::string name );
 	
-	RenderComponent createRenderComponent( std::string name );
-	void removeComponent( std::string pName, Component * pComponent );
-	GameObject getGameObject( std::string pName );
+	std::shared_ptr<GameObject> createGameObject(std::string name);
+	void removeGameObject(std::string name);
+	
+	std::shared_ptr<RenderComponent> createRenderComponent(std::string name);
+	
+	std::shared_ptr<GameObject> getGameObject(std::string name);
+	std::shared_ptr<GameObject> getParentObject(std::shared_ptr<Component> component);
 	
 private:
 	int mGameObjectIdIncrement;
 	int mComponentIdIncrement;
-	std::map<std::string, GameObject*> mGameObjects;
+	
+	std::map<std::string, std::shared_ptr<GameObject>> mGameObjects;
 };
