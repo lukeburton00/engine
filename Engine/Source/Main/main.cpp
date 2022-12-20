@@ -1,10 +1,3 @@
-//
-//  main.cpp
-//  Engine
-//
-//  Created by Luke Burton on 12/4/22.
-//
-
 #include <iostream>
 #include <stdio.h>
 #include <GL/glew.h>
@@ -19,7 +12,6 @@ Uint32 flags = SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL;
 
 int main(int argc, char* args[])
 {
-	
     static Application Engine;
 
     if(Engine.Initialize(SCREEN_WIDTH,SCREEN_HEIGHT, flags))

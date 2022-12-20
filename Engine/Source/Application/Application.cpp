@@ -4,23 +4,6 @@ bool Application::Initialize(const int& SCREEN_WIDTH, const int& SCREEN_HEIGHT, 
 {
 	bool isInitialized = false;
 	
-	/* ObjectManager tests */
-	RenderSystem * pRenderer = &Renderer;
-	objectManager = new ObjectManager(pRenderer);
-	objectManager->createGameObject("GameObject1");
-	
-	auto renderComponent = objectManager->createRenderComponent("GameObject1");
-	
-	renderComponent->mVertices =
-	{
-		0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-		0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
-		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f
-	};
-	
-	
-	/* ------------------- */
-	
     if(!Renderer.Initialize(SCREEN_WIDTH, SCREEN_HEIGHT, flags))
     {
         printf("ERROR: Unable to initialize renderer.");
@@ -57,6 +40,11 @@ void Application::Update()
 	if (Input.IsKeyPressed("Escape"))
 	{
 		isRunning = false;
+	}
+	
+	if (Input.IsKeyReleased("F"))
+	{
+		Renderer.toggleWireFrame();
 	}
 }
 
