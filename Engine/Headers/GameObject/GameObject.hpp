@@ -2,15 +2,19 @@
 
 #include <iostream>
 #include <stdio.h>
-#include <vector>
 #include "Component.hpp"
-#include <map>
 
 class GameObject
 {
 public:
+	
+	// Identifiers
 	int mId;
 	std::string mName;
+	
+	// Components
+	std::shared_ptr<TransformComponent> mTransform = nullptr;
+	std::shared_ptr<SpriteComponent> mSpriteComponent = nullptr;
 	
 	GameObject(int id, std::string name)
 	{
@@ -18,9 +22,6 @@ public:
 		mName = name;
 	}
 	
-	void addComponent(std::shared_ptr<Component> component);
-	std::shared_ptr<Component> getComponent(ComponentType componentType);
-	
-private:
-	std::map<ComponentType, std::shared_ptr<Component>> mComponents;
+	void addTransform();
+	void addSpriteRenderer();
 };

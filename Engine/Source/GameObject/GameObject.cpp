@@ -1,20 +1,11 @@
 #include "GameObject.hpp"
 
-std::shared_ptr<Component> GameObject::getComponent(ComponentType componentType)
+void GameObject::addTransform()
 {
-	// Check if component of type exists
-	if (mComponents.count(componentType) == 0)
-	{
-		// Warn command user of nullptr in case of no component
-		printf("WARNING: No component of type %d on GameObject %s. NULLPTR returned.", componentType, mName.c_str());
-		return nullptr;
-	}
-	
-	// Get component of type by type reference
-	return mComponents[componentType];
+	mTransform = std::make_shared<TransformComponent>(mId);
 }
 
-void GameObject::addComponent(std::shared_ptr<Component> component)
+void GameObject::addSpriteRenderer()
 {
-	mComponents[component->mType] = component;
+	mSpriteComponent = std::make_shared<SpriteComponent>(mId);
 }

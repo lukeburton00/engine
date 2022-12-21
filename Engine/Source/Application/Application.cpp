@@ -9,13 +9,16 @@ bool Application::Initialize(const int& SCREEN_WIDTH, const int& SCREEN_HEIGHT, 
         printf("ERROR: Unable to initialize renderer.");
     }
 	
-	isInitialized = true;
+	else
+	{
+		isInitialized = true;
+	}
+	
     return isInitialized;
 }
 
 void Application::Shutdown()
 {
-	delete objectManager;
     Renderer.Shutdown();
 }
 

@@ -4,53 +4,39 @@
 #include <string>
 #include "glm.hpp"
 #include "Shader.hpp"
+#include "Texture2D.hpp"
 
-enum ComponentType
+class Component
 {
-	renderComponent,
-	transformComponent
-};
-
-struct Component
-{
-	int mId;
+public:
 	int mParentObjectId;
-	ComponentType mType;
 };
 
-struct RenderComponent : Component
+class SpriteComponent : Component
 {
-	std::vector<GLfloat> mVertices;
+public:
+	int mSpriteID;
 	
-	RenderComponent(int id)
+	SpriteComponent(int id)
 	{
-		mId = id;
-		mType = renderComponent;
-	}
-	
-	RenderComponent(int id, std::vector<GLfloat> vertices)
-	{
-		mId = id;
-		mVertices = vertices;
-		mType = renderComponent;
+		mParentObjectId = id;
 	}
 };
 
-struct TransformComponent : Component
+class TransformComponent : Component
 {
+public:
 	glm::vec3 mPosition;
 
 	TransformComponent(int id)
 	{
-		mId = id;
+		mParentObjectId = id;
 		mPosition = glm::vec3(0,0,0);
-		mType = transformComponent;
 	}
 	
 	TransformComponent(int id, glm::vec3 position)
 	{
-		mId = id;
+		mParentObjectId = id;
 		mPosition = position;
-		mType = transformComponent;
 	}
 };

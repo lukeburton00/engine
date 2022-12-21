@@ -4,7 +4,6 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <sstream>
-#include "ObjectManager.hpp"
 #include "InputSystem.hpp"
 #include "RenderSystem.hpp"
 #include "GameObject.hpp"
@@ -19,7 +18,6 @@ public:
     void Run();
 
 private:
-	ObjectManager * objectManager;
     InputSystem Input;
 	RenderSystem Renderer;
 

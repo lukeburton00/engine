@@ -9,9 +9,12 @@
 #include <string>
 #include <vector>
 #include "stb_image.hpp"
-#include "Observer.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
+#include "Texture2D.hpp"
+#include "VAO.hpp"
+#include "VBO.hpp"
+#include "EBO.hpp"
 
 class RenderSystem
 {
